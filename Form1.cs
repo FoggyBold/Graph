@@ -34,15 +34,9 @@ namespace Graph
             {
                 Node newPoint = new Node();
                 newPoint.Dot = new Rectangle(e.Location, new Size(10, 10));
-                //newPoint.DrawingPen = new Pen(Color.White, 2);
                 Nodes.addNode(newPoint);
                 ((Control)sender).Invalidate();
             }
-            //else if(e.Button == MouseButtons.Right)
-            //{
-            //Nodes.Delete(Nodes.Nodes.Find(n => n.Dot.Contains(e.Location)));
-            //((Control)sender).Invalidate();
-            //}
         }
 
         private void Form1_Paint(object sender, PaintEventArgs e)
@@ -96,14 +90,43 @@ namespace Graph
                         Lines.Delete(line);
                     }
                     Nodes.Delete(node);
+                    ((Control)sender).Invalidate();
                 }
                 else
                 {
-
-                    //Line line = Lines.Lines.Find(n => )
+                    //удаление связей, использую общее уравнение прямой, чтоб понять, лежит ли курсор на линии 
+                    List<Line> lines = new List<Line>();
+                    foreach(Line l in Lines.Lines)
+                    {
+                        int width = l.Start.Dot.Width;
+                        Point point1 = new Point(l.Start.Dot.Left + width / 2, l.Start.Dot.Y + width / 2);
+                        Point point2 = new Point(l.End.Dot.Left + width / 2, l.End.Dot.Y + width / 2);
+                        if (Math.Abs((double)(e.Location.X - point1.X) / (point2.X - point1.X) - (double)(e.Location.Y - point1.Y) / (point2.Y - point1.Y)) <= 0.1)
+                        {
+                            lines.Add(l);
+                        }
+                    }
+                    if(lines.Count > 0)
+                    {
+                        foreach (Line line in lines)
+                        {
+                            foreach (Node tempNode in Nodes.Nodes.FindAll(n => n == line.Start || n == line.End))
+                            {
+                                if (tempNode == line.Start)
+                                {
+                                    tempNode.Сonnection.Remove(line.End);
+                                }
+                                else
+                                {
+                                    tempNode.Сonnection.Remove(line.Start);
+                                }
+                            }
+                            Lines.Delete(line);
+                        }
+                        lines.Clear();
+                        ((Control)sender).Invalidate();
+                    }
                 }
-                //Lines.Delete(Lines.Lines.)
-                ((Control)sender).Invalidate();
             }
         }
 
@@ -125,13 +148,5 @@ namespace Graph
                 ((Control)sender).Invalidate();
             }
         }
-
-        //private void Form1_MouseMove(object sender, MouseEventArgs e)
-        //{
-            //if (e.Button == MouseButtons.Left && currNode != null)
-            //{
-
-            //}
-        //}
     }
 }
