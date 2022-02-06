@@ -1,6 +1,7 @@
 ﻿using Graph.Models;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,7 +10,7 @@ namespace Graph.Container
 {
     public class GraphLines : IDisposable
     {
-        bool IsDisposed = false;
+        public bool IsDisposed = false;
         public List<Line> Lines { get; set; }
         public GraphLines() => Lines = new List<Line>();
         public void addLine(Line newLine)

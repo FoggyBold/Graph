@@ -12,10 +12,10 @@ namespace Graph.Models
         private Pen m_Pen = null;
         private Rectangle m_Dot = Rectangle.Empty;
         public List<Node> Сonnection { get; set; }
-        public Node() : this(Point.Empty) { }
-        public Node(Point newPoint)
+        public Node(Color color) : this(Point.Empty, color) { }
+        public Node(Point newPoint, Color color)
         {
-            this.m_Pen = new Pen(Color.White, 2);
+            this.m_Pen = new Pen(color == Color.White ? Color.Black : Color.White, 2);
             this.m_Dot = new Rectangle(newPoint, new Size(2, 2));
             Сonnection = new List<Node>();
         }

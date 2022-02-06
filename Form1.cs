@@ -32,7 +32,7 @@ namespace Graph
         {
             if (e.Button == MouseButtons.Left)
             {
-                Node newPoint = new Node();
+                Node newPoint = new Node(this.BackColor);
                 newPoint.Dot = new Rectangle(e.Location, new Size(10, 10));
                 Nodes.addNode(newPoint);
                 ((Control)sender).Invalidate();
@@ -74,7 +74,7 @@ namespace Graph
                     {
                         currNodeForConnection.Сonnection.Add(tempNode);
                         tempNode.Сonnection.Add(currNodeForConnection);
-                        Lines.addLine(new Line(currNodeForConnection, tempNode));
+                        Lines.addLine(new Line(currNodeForConnection, tempNode, this.BackColor));
                         ((Control)sender).Invalidate();
                     }
                     currNodeForConnection = null;
@@ -147,6 +147,51 @@ namespace Graph
                 currNode.Dot = new Rectangle(e.Location, new Size(10, 10));
                 ((Control)sender).Invalidate();
             }
+        }
+
+        private void clearToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DialogResult clearMessageBox = MessageBox.Show("Do you really want to clear this form?",
+            "Reset Application", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (clearMessageBox == DialogResult.Yes)
+            {
+                Nodes.Clear();
+                Lines.Clear();
+                CreateGraphics().Clear(this.BackColor);
+            }
+            
+        }
+
+        private void lightThemeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            foreach(Node node in Nodes.Nodes)
+            {
+                node.DrawingPen = new Pen(Color.Black, 2);
+            }
+            foreach(Line line in Lines.Lines)
+            {
+                line.DrawingPen = new Pen(Color.Black, 2);
+            }
+            this.BackColor = Color.White;
+            Graphics graphics = CreateGraphics();
+            graphics.Clear(this.BackColor);
+            Form1_Paint(sender, new PaintEventArgs(graphics, ClientRectangle));
+        }
+
+        private void darkThemeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            foreach (Node node in Nodes.Nodes)
+            {
+                node.DrawingPen = new Pen(Color.White, 2);
+            }
+            foreach (Line line in Lines.Lines)
+            {
+                line.DrawingPen = new Pen(Color.White, 2);
+            }
+            this.BackColor = Color.Black;
+            Graphics graphics = CreateGraphics();
+            graphics.Clear(this.BackColor);
+            Form1_Paint(sender, new PaintEventArgs(graphics, ClientRectangle));
         }
     }
 }
