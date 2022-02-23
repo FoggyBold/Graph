@@ -8,9 +8,8 @@ using System.Threading.Tasks;
 
 namespace Graph.Models
 {
-    public class Line
+    public class Line : WindowObject
     {
-        private Pen m_Pen = null;
         private Node start = null;
         private Node end = null;
         public Line(Node start, Node end, Color color)
@@ -31,12 +30,5 @@ namespace Graph.Models
         }
         public Node Start { get => start; }
         public Node End { get => end; }
-        public void Delete()
-        {
-            if (m_Pen != null)
-            {
-                m_Pen.Dispose();
-            }
-        }
     }
 }

@@ -7,29 +7,20 @@ using System.Threading.Tasks;
 
 namespace Graph.Models
 {
-    public class Node
+    public class Node : WindowObject
     {
-        private Pen m_Pen = null;
+        public int Id { get; set; }
         private Rectangle m_Dot = Rectangle.Empty;
-        public List<Node> Сonnection { get; set; }
-        public Node(Color color) : this(Point.Empty, color) { }
-        public Node(Point newPoint, Color color)
+        public List<Tuple<Node, double>> Сonnection { get; set; }
+        public Node(Color color, Point newPoint, int id)
         {
+            Id = id;
             this.m_Pen = new Pen(color == Color.White ? Color.Black : Color.White, 2);
-            this.m_Dot = new Rectangle(newPoint, new Size(2, 2));
-            Сonnection = new List<Node>();
+            this.m_Dot = new Rectangle(newPoint, new Size(15, 15));
+            Сonnection = new List<Tuple<Node, double>>();
         }
 
         public Pen DrawingPen { get => m_Pen; set => m_Pen = value; }
         public Rectangle Dot { get => m_Dot; set => m_Dot = value; }
-
-        public void Delete()
-        {
-            if (m_Pen != null)
-            {
-                m_Pen.Dispose();
-                Сonnection.Clear();
-            }
-        }
     }
 }

@@ -13,6 +13,7 @@ namespace Graph.Container
         bool IsDisposed = false;
         public List<Node> Nodes { get; set; }
         public GraphNodes() => Nodes = new List<Node>();
+        public GraphNodes(List<Node> nodes) => Nodes = nodes;
         public void addNode(Node newNode)
         {
             //if(Nodes.Find(x => x == newNode && x.Y == newNode.Y) == null)

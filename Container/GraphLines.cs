@@ -13,6 +13,8 @@ namespace Graph.Container
         public bool IsDisposed = false;
         public List<Line> Lines { get; set; }
         public GraphLines() => Lines = new List<Line>();
+        public GraphLines(List<Line> lines) => Lines = lines;
+
         public void addLine(Line newLine)
         {
             Lines.Add(newLine);
