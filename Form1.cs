@@ -181,7 +181,7 @@ namespace Graph
         {
             if(currNode != null && e.Button == MouseButtons.Left)
             {
-                currNode.Dot = new Rectangle(e.Location, new Size(15, 15));
+                currNode.Dot = new Rectangle(e.Location, currNode.Dot.Size);
                 currNode = null;
                 ((Control)sender).Invalidate();
             }
@@ -191,7 +191,7 @@ namespace Graph
         {
             if (e.Button == MouseButtons.Left && currNode != null)
             {
-                currNode.Dot = new Rectangle(e.Location, new Size(15, 15));
+                currNode.Dot = new Rectangle(e.Location, currNode.Dot.Size);
                 ((Control)sender).Invalidate();
             }
         }
