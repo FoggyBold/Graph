@@ -73,7 +73,7 @@ namespace Graph.Action
                     foreach (var i in model.Connection)
                     {
                         Nodes.Find(n => n.Id == model.Id).Сonnection.Add(new Tuple<Node, double>(Nodes.Find(n => n.Id == i.Item1), i.Item2));
-                        Lines.Add(new Line(Nodes.Find(n => n.Id == model.Id), Nodes.Find(n => n.Id == i.Item1), color));
+                        //Lines.Add(new Line(Nodes.Find(n => n.Id == model.Id), Nodes.Find(n => n.Id == i.Item1), color, ));
                     }
                 }
             }

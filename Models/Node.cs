@@ -11,12 +11,14 @@ namespace Graph.Models
     {
         public int Id { get; set; }
         private Rectangle m_Dot = Rectangle.Empty;
+        private Style style;
         public List<Tuple<Node, double>> Сonnection { get; set; }
         public Node(Color color, Point newPoint, int id)
         {
             Id = id;
-            this.m_Pen = new Pen(color == Color.White ? Color.Black : Color.White, 2);
-            this.m_Dot = new Rectangle(newPoint, new Size(15, 15));
+            style = new Style(new Size(14, 14), color == Color.White ? Color.Black : Color.White);
+            this.m_Pen = new Pen(style.Color, 2);
+            this.m_Dot = new Rectangle(newPoint, style.Size);
             Сonnection = new List<Tuple<Node, double>>();
         }
 

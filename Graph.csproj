@@ -81,6 +81,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Action\MathematicalFunctions.cs" />
     <Compile Include="Action\SaveLoad.cs" />
     <Compile Include="Container\GraphLines.cs" />
     <Compile Include="Container\GraphNodes.cs" />
@@ -93,6 +94,8 @@
     <Compile Include="Models\Line.cs" />
     <Compile Include="Models\ModelSave.cs" />
     <Compile Include="Models\Node.cs" />
+    <Compile Include="Models\Style.cs" />
+    <Compile Include="Models\Text.cs" />
     <Compile Include="Models\WindowObject.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

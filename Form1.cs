@@ -18,18 +18,19 @@ namespace Graph
 {
     public partial class Form1 : Form
     {
-        private SaveLoad SaveLoad = new SaveLoad();
+        private SaveLoad saveLoad = new SaveLoad();
+        private MathematicalFunctions functions = new MathematicalFunctions();
         public GraphNodes Nodes { get; set; }
         public GraphLines Lines { get; set; }
-        private Node currNode { get; set; }
-        private Node currNodeForConnection { get; set; }
+        private Node CurrNode { get; set; }
+        private Node CurrNodeForConnection { get; set; }
         public Form1()
         {
             InitializeComponent();
             Nodes = new GraphNodes();
             Lines = new GraphLines();
-            currNode = null;
-            currNodeForConnection = null;
+            CurrNode = null;
+            CurrNodeForConnection = null;
         }
 
         public Form1(List<Node> nodes, List<Line> lines)
@@ -37,8 +38,8 @@ namespace Graph
             InitializeComponent();
             Nodes = new GraphNodes(nodes);
             Lines = new GraphLines(lines);
-            currNode = null;
-            currNodeForConnection = null;
+            CurrNode = null;
+            CurrNodeForConnection = null;
         }
 
         private void Form1_MouseDoubleClick(object sender, MouseEventArgs e)
@@ -63,37 +64,63 @@ namespace Graph
             {
                 e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
                 e.Graphics.DrawEllipse(node.DrawingPen, node.Dot);
-                //e.Graphics.DrawString(node.Id.ToString(), new Font("Arial", 17), new SolidBrush(Color.Black == Color.Black ? Color.White : Color.Black), node.Dot);
-            }
-            foreach (Line line in Lines.Lines)
-            {
-                int width = line.Start.Dot.Width;
 
-                Point point1 = new Point(line.Start.Dot.Left + width / 2, line.Start.Dot.Y + width / 2);
-                Point point2 = new Point(line.End.Dot.Left + width / 2, line.End.Dot.Y + width / 2);
-                e.Graphics.DrawLine(line.DrawingPen, point1, point2);
+                StringFormat stringFormat = new StringFormat();
+                stringFormat.Alignment = StringAlignment.Center;
+                stringFormat.LineAlignment = StringAlignment.Center;
             }
+            for (int i = 0; i < Lines.Lines.Count; i++)
+            {
+                int width = Lines.Lines[i].Start.Dot.Width;
+
+                Point point1 = new Point(Lines.Lines[i].Start.Dot.Left + width / 2, Lines.Lines[i].Start.Dot.Y + width / 2);
+                Point point2 = new Point(Lines.Lines[i].End.Dot.Left + width / 2, Lines.Lines[i].End.Dot.Y + width / 2);
+
+                e.Graphics.DrawLine(Lines.Lines[i].DrawingPen, point1, point2);
+                bool flag = true;
+                for(int j = 0; j < i && flag; j++)
+                {
+                    if(Lines.Lines[j].Start == Lines.Lines[i].End && Lines.Lines[j].End == Lines.Lines[i].Start)
+                    {
+                        flag = false;
+                    }
+                }
+                if (flag)
+                {
+                    drawString(Lines.Lines[i], e);
+                }
+            }
+        }
+
+        private void drawString(Line line, PaintEventArgs e)
+        {
+            Font drawFont = new Font("Arial", 16);
+            SolidBrush drawBrush = new SolidBrush(line.style.Color);
+            StringFormat drawFormat = new StringFormat();
+            e.Graphics.DrawString(line.text.TextInLable, drawFont, drawBrush, line.text.Point, drawFormat);
+            drawFont.Dispose();
+            drawBrush.Dispose();
         }
 
         private void Form1_MouseDown(object sender, MouseEventArgs e)
         {
-            if (currNode == null && e.Button == MouseButtons.Left)
+            if (CurrNode == null && e.Button == MouseButtons.Left)
             {
-                currNode = Nodes.Nodes.Find(n => n.Dot.Contains(e.X, e.Y));
+                CurrNode = Nodes.Nodes.Find(n => n.Dot.Contains(e.X, e.Y));
             }
             else if(e.Button == MouseButtons.Right)
             {
-                if (currNodeForConnection == null)
+                if (CurrNodeForConnection == null)
                 {
-                    currNodeForConnection = Nodes.Nodes.Find(n => n.Dot.Contains(e.X, e.Y));
+                    CurrNodeForConnection = Nodes.Nodes.Find(n => n.Dot.Contains(e.X, e.Y));
                 }
                 else
                 {
                     Node tempNode = Nodes.Nodes.Find(n => n.Dot.Contains(e.X, e.Y));
-                    if (tempNode != null)
+                    if (tempNode != null && CurrNodeForConnection != tempNode)
                     {
                         //больше одной дороги из одной точки в другую быть не может
-                        if (Lines.Lines.Find(l => l.Start == currNodeForConnection && l.End == tempNode) != null)
+                        if (Lines.Lines.Find(l => l.Start == CurrNodeForConnection && l.End == tempNode) != null)
                         {
                             DialogResult result = MessageBox.Show(
                                 "Вы не можете провести больше одной дороги в этом направлении!",
@@ -104,25 +131,38 @@ namespace Graph
                         {
                             //если у нас есть уже дорога в обратном направлении, то нам не нужно спрашивать длинну, можно просто ее взять из существующей связи
                             double length = 0;
-                            Line check = Lines.Lines.Find(l => l.End == currNodeForConnection && l.Start == tempNode);
+                            Line check = Lines.Lines.Find(l => l.End == CurrNodeForConnection && l.Start == tempNode);
                             if (check != null)
                             {
-                                length = check.Start.Сonnection.Find(n => n.Item1 == currNodeForConnection).Item2;
-                                currNodeForConnection.Сonnection.Add(new Tuple<Node, double>(tempNode, length));
+                                length = check.Start.Сonnection.Find(n => n.Item1 == CurrNodeForConnection).Item2;
+                                CurrNodeForConnection.Сonnection.Add(new Tuple<Node, double>(tempNode, length));
+                                Lines.addLine(new Line(CurrNodeForConnection, tempNode, this.BackColor, length));
                             }
                             else
                             {
-                                while (length == 0)
+                                bool flag = true;
+                                while (length == 0 && flag)
                                 {
-                                    double.TryParse(Microsoft.VisualBasic.Interaction.InputBox("Введите длинну:"), out length);
+                                    string inputValue = Microsoft.VisualBasic.Interaction.InputBox("Введите длинну:");
+                                    if (inputValue != "")
+                                    {
+                                        double.TryParse(inputValue, out length);
+                                    }
+                                    else
+                                    {
+                                        flag = false;
+                                    }
                                 }
-                                currNodeForConnection.Сonnection.Add(new Tuple<Node, double>(tempNode, length));
+                                if (flag)
+                                {
+                                    CurrNodeForConnection.Сonnection.Add(new Tuple<Node, double>(tempNode, length));
+                                    Lines.addLine(new Line(CurrNodeForConnection, tempNode, this.BackColor, length));
+                                }
                             }
-                            Lines.addLine(new Line(currNodeForConnection, tempNode, this.BackColor));
                             ((Control)sender).Invalidate();
                         }
                     }
-                    currNodeForConnection = null;
+                    CurrNodeForConnection = null;
                 }
             }
             else if(e.Button == MouseButtons.Middle)
@@ -179,19 +219,26 @@ namespace Graph
 
         private void Form1_MouseUp(object sender, MouseEventArgs e)
         {
-            if(currNode != null && e.Button == MouseButtons.Left)
+            if(CurrNode != null && e.Button == MouseButtons.Left)
             {
-                currNode.Dot = new Rectangle(e.Location, currNode.Dot.Size);
-                currNode = null;
+                CurrNode.Dot = new Rectangle(e.Location, CurrNode.Dot.Size);
+                CurrNode = null;
                 ((Control)sender).Invalidate();
             }
         }
 
         private void Form1_MouseMove(object sender, MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Left && currNode != null)
+            if (e.Button == MouseButtons.Left && CurrNode != null)
             {
-                currNode.Dot = new Rectangle(e.Location, currNode.Dot.Size);
+                CurrNode.Dot = new Rectangle(e.Location, CurrNode.Dot.Size);
+                foreach (Line line in Lines.Lines)
+                {
+                    foreach(Node node in Nodes.Nodes.FindAll(n => n == line.Start || n == line.End))
+                    {
+                        line.updatePositionText();
+                    }
+                }
                 ((Control)sender).Invalidate();
             }
         }
@@ -243,14 +290,14 @@ namespace Graph
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            _ = SaveLoad.SaveAsync(Nodes.Nodes);
+            _ = saveLoad.SaveAsync(Nodes.Nodes);
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
             List<Line> lines = new List<Line>();
             List<Node> nodes = new List<Node>();
-            if (SaveLoad.Load(out lines, out nodes, this.BackColor))
+            if (saveLoad.Load(out lines, out nodes, this.BackColor))
             {
                 Nodes.Nodes = nodes;
                 Lines.Lines = lines;
