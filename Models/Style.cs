@@ -15,7 +15,7 @@ namespace Graph.Models
         public Style()
         {
             Size = new Size(14, 14);
-            Color = Color.Black;
+            Color = Color.Blue;
         }
 
         public Style(Size size, Color color)

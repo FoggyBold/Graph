@@ -15,7 +15,7 @@ namespace Graph.Models
         public Node(Color color, Point newPoint, int id)
         {
             Id = id;
-            style = new Style(new Size(14, 14), color == Color.White ? Color.Black : Color.White);
+            style = new Style(new Size(20, 20), color == Color.White ? Color.Black : Color.White);
             this.m_Pen = new Pen(style.Color, 2);
             this.m_Dot = new Rectangle(newPoint, style.Size);
             Сonnection = new List<Tuple<Node, double>>();

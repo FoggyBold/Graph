@@ -73,28 +73,36 @@ namespace Graph
             {
                 int width = Lines.Lines[i].Start.Dot.Width;
 
-                Point point1 = new Point(Lines.Lines[i].Start.Dot.Left + width / 2, Lines.Lines[i].Start.Dot.Y + width / 2);
-                Point point2 = new Point(Lines.Lines[i].End.Dot.Left + width / 2, Lines.Lines[i].End.Dot.Y + width / 2);
+                double theta = Math.Atan2(Lines.Lines[i].End.Dot.Y + width / 2 - Lines.Lines[i].Start.Dot.Y + width / 2,
+                    Lines.Lines[i].End.Dot.Left + width / 2 - Lines.Lines[i].Start.Dot.Left + width / 2);
+                int x1 = (int)(Lines.Lines[i].Start.Dot.Left + width / 2 + width / 2 * Math.Cos(theta));
+                int y1 = (int)(Lines.Lines[i].Start.Dot.Y + width / 2 + width / 2 * Math.Sin(theta));
+                Point point1 = new Point(x1, y1);
+                int x2 = (int)(Lines.Lines[i].End.Dot.Left + width / 2 - width / 2 * Math.Cos(theta));
+                int y2 = (int)(Lines.Lines[i].End.Dot.Y + width / 2 - width / 2 * Math.Sin(theta));
+                Point point2 = new Point(x2, y2);
 
                 e.Graphics.DrawLine(Lines.Lines[i].DrawingPen, point1, point2);
-                bool flag = true;
-                for(int j = 0; j < i && flag; j++)
-                {
-                    if(Lines.Lines[j].Start == Lines.Lines[i].End && Lines.Lines[j].End == Lines.Lines[i].Start)
-                    {
-                        flag = false;
-                    }
-                }
-                if (flag)
-                {
-                    drawString(Lines.Lines[i], e);
-                }
+                //bool flag = true;
+                //for(int j = 0; j < i && flag; j++)
+                //{
+                //    if(Lines.Lines[j].Start == Lines.Lines[i].End && Lines.Lines[j].End == Lines.Lines[i].Start)
+                //    {
+                //        flag = false;
+                //    }
+                //}
+                //if (flag)
+                //{
+                //    drawString(Lines.Lines[i], e);
+                //}
             }
         }
 
+
+
         private void drawString(Line line, PaintEventArgs e)
         {
-            Font drawFont = new Font("Arial", 16);
+            Font drawFont = new Font("Arial", 14);
             SolidBrush drawBrush = new SolidBrush(line.style.Color);
             StringFormat drawFormat = new StringFormat();
             e.Graphics.DrawString(line.text.TextInLable, drawFont, drawBrush, line.text.Point, drawFormat);
