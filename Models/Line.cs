@@ -12,7 +12,6 @@ namespace Graph.Models
     {
         private Node start = null;
         private Node end = null;
-        public Style style;
         public Text text;
         public Line(Node start, Node end, Color color, double length)
         {

@@ -253,18 +253,17 @@ namespace Graph
                 Lines.Clear();
                 CreateGraphics().Clear(this.BackColor);
             }
-            
         }
 
         private void lightThemeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            foreach(Node node in Nodes.Nodes)
+            foreach (Node node in Nodes.Nodes)
             {
-                node.DrawingPen = new Pen(Color.Black, 2);
+                node.updateColor(Color.Black);
             }
-            foreach(Line line in Lines.Lines)
+            foreach (Line line in Lines.Lines)
             {
-                line.DrawingPen = new Pen(Color.Black, 2);
+                line.updateColor(Color.Black);
             }
             this.BackColor = Color.White;
             Graphics graphics = CreateGraphics();
@@ -276,11 +275,11 @@ namespace Graph
         {
             foreach (Node node in Nodes.Nodes)
             {
-                node.DrawingPen = new Pen(Color.White, 2);
+                node.updateColor(Color.White);
             }
             foreach (Line line in Lines.Lines)
             {
-                line.DrawingPen = new Pen(Color.White, 2);
+                line.updateColor(Color.White);
             }
             this.BackColor = Color.FromArgb(34, 38, 41);
             Graphics graphics = CreateGraphics();
