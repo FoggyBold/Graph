@@ -22,8 +22,8 @@ namespace Graph.Models
         public ModelSave(Node point)
         {
             Id = point.Id;
-            X = point.Dot.X;
-            Y = point.Dot.Y;
+            X = point.Center.X;
+            Y = point.Center.Y;
             if (Connection == null)
             {
                 Connection = new List<Tuple<int, double>>();

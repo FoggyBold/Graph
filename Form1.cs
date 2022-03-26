@@ -277,7 +277,7 @@ namespace Graph
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (saveLoad.Load(out List<Line> lines, out List<Node> nodes, this.BackColor))
+            if (saveLoad.Load(out List<Line> lines, out List<Node> nodes, this.BackColor != Color.Black ? Color.White : Color.Black))
             {
                 Nodes.Nodes = nodes;
                 Lines.Lines = lines;
