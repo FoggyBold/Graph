@@ -213,8 +213,6 @@ namespace Graph
             {
                 if (currNode != null)
                 {
-                    //currNode.Dot = new Rectangle(e.Location, currNode.Dot.Size);
-                    //currNode.Center = e.Location;
                     currNode.changeCenter(e.Location);
                     foreach (Line line in Lines.Lines)
                     {
