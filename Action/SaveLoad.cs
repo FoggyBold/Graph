@@ -1,11 +1,8 @@
-﻿using Graph.Container;
-using Graph.Models;
+﻿using Graph.Models;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -19,7 +16,6 @@ namespace Graph.Action
             SaveFileDialog saveFileDialog1 = new SaveFileDialog();
             saveFileDialog1.InitialDirectory = @"C:\";
             saveFileDialog1.Title = "Save text Files";
-            //saveFileDialog1.CheckFileExists = true;
             saveFileDialog1.CheckPathExists = true;
             saveFileDialog1.DefaultExt = "json";
             saveFileDialog1.Filter = "Text files (*.json)|*.json";

@@ -10,17 +10,22 @@ namespace Graph.Models
     public class Node : WindowObject
     {
         public int Id { get; set; }
-        private Rectangle m_Dot = Rectangle.Empty;
         public List<Tuple<Node, double>> Сonnection { get; set; }
+        public Rectangle Dot { get; set; }
+        public Point Center { get; set; }
         public Node(Color color, Point newPoint, int id)
         {
             Id = id;
-            style = new Style(new Size(20, 20), color == Color.White ? Color.Black : Color.White);
-            this.m_Pen = new Pen(style.Color, 2);
-            this.m_Dot = new Rectangle(newPoint, style.Size);
+            Style = new Style(new Size(20, 20), color);
+            Pen = new Pen(Style.Color, 2);
             Сonnection = new List<Tuple<Node, double>>();
+            changeCenter(newPoint);
         }
-        public Pen DrawingPen { get => m_Pen; set => m_Pen = value; }
-        public Rectangle Dot { get => m_Dot; set => m_Dot = value; }
+        public void changeCenter(Point newCenter)
+        {
+            Point location = new Point(newCenter.X - Style.Size.Width / 2, newCenter.Y - Style.Size.Width / 2);
+            Dot = new Rectangle(location, Style.Size);
+            Center = newCenter;
+        }
     }
 }

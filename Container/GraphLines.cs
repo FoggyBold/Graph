@@ -23,7 +23,7 @@ namespace Graph.Container
         {
             if (line != null)
             {
-                line.Delete();
+                line.delete();
                 Lines.Remove(line);
             }
         }
@@ -46,7 +46,7 @@ namespace Graph.Container
                 {
                     if (line != null)
                     {
-                        line.Delete();
+                        line.delete();
                     }
                 }
             }

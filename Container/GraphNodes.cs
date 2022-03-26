@@ -16,10 +16,6 @@ namespace Graph.Container
         public GraphNodes(List<Node> nodes) => Nodes = nodes;
         public void addNode(Node newNode)
         {
-            //if(Nodes.Find(x => x == newNode && x.Y == newNode.Y) == null)
-            //{
-            //    Nodes.Add(newNode);
-            //}
             if (newNode.Dot.Size.Width > 1 && newNode.Dot.Size.Height > 1)
                 Nodes.Add(newNode);
         }
@@ -27,7 +23,7 @@ namespace Graph.Container
         {
             if (node != null)
             {
-                node.Delete();
+                node.delete();
                 Nodes.Remove(node);
             }
         }
@@ -50,7 +46,7 @@ namespace Graph.Container
                 {
                     if (node != null)
                     {
-                        node.Delete();
+                        node.delete();
                     }
                 }
             }

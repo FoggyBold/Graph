@@ -1,26 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Drawing;
 
 namespace Graph.Models
 {
     public class WindowObject
     {
-        public Pen m_Pen = null;
-        public Style style = null;
+        public Pen Pen { get; set; }
+        public Style Style { get; set; }
+        public Text Text { get; set; }
         public void updateColor(Color color)
         {
-            m_Pen.Color = color;
-            style.Color = color;
+            Pen.Color = color;
+            Style.Color = color;
         }
-        public void Delete()
+        public void delete()
         {
-            if (m_Pen != null)
+            if (Pen != null)
             {
-                m_Pen.Dispose();
+                Pen.Dispose();
             }
         }
     }
