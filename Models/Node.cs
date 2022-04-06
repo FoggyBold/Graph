@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Graph.Models
 {
@@ -16,7 +13,7 @@ namespace Graph.Models
         public Node(Color color, Point newPoint, int id)
         {
             Id = id;
-            Style = new Style(new Size(20, 20), color);
+            Style = new Style(new Size(24, 24), color);
             Pen = new Pen(Style.Color, 2);
             Сonnection = new List<Tuple<Node, double>>();
             changeCenter(newPoint);
@@ -26,6 +23,16 @@ namespace Graph.Models
             Point location = new Point(newCenter.X - Style.Size.Width / 2, newCenter.Y - Style.Size.Width / 2);
             Dot = new Rectangle(location, Style.Size);
             Center = newCenter;
+        }
+    }
+
+    public class NodeComparer : IComparer<Node>
+    {
+        public int Compare(Node x, Node y)
+        {
+            if (x.Id < y.Id)
+                return 1;
+            return -1;
         }
     }
 }

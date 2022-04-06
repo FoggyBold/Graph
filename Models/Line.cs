@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -25,24 +24,22 @@ namespace Graph.Models
         }
         public void updatePositionText()
         {
-            //расчет координат середины линии с отступом по Y
             Point tempPointX = new Point(End.Dot.X, Start.Dot.Y);
             int lengthX = (int)Math.Sqrt((Start.Dot.X - tempPointX.X) * (Start.Dot.X - tempPointX.X) + (Start.Dot.Y - tempPointX.Y) * (Start.Dot.Y - tempPointX.Y));
             int lengthY = (int)Math.Sqrt((End.Dot.X - tempPointX.X) * (End.Dot.X - tempPointX.X) + (End.Dot.Y - tempPointX.Y) * (End.Dot.Y - tempPointX.Y));
-            int newX = End.Dot.X > Start.Dot.X ? Start.Dot.X + lengthX / 2 : Start.Dot.X - lengthX / 2;
-            int newY = End.Dot.Y > Start.Dot.Y ? Start.Dot.Y + lengthY / 2 + 10 : Start.Dot.Y - lengthY / 2 - 10;
+            int newX, newY;
+            if (Math.Abs(End.Dot.X - Start.Dot.X) >= Math.Abs(End.Dot.Y - Start.Dot.Y))
+            {
+                newX = End.Dot.X > Start.Dot.X ? Start.Dot.X + lengthX / 2 : Start.Dot.X - lengthX / 2;
+                newY = End.Dot.Y > Start.Dot.Y ? Start.Dot.Y + lengthY / 2 + 10 : Start.Dot.Y - lengthY / 2 - 10;
+            }
+            else
+            {
+                newX = End.Dot.X > Start.Dot.X ? Start.Dot.X + lengthX / 2 + 10 : Start.Dot.X - lengthX / 2 - 10;
+                newY = End.Dot.Y > Start.Dot.Y ? Start.Dot.Y + lengthY / 2 : Start.Dot.Y - lengthY / 2;
+            }
 
             Text.Point = new Point(newX, newY);
-        }
-    }
-
-    public class LineComparer : IComparer<Line>
-    {
-        public int Compare(Line x, Line y)
-        {
-            if (x.Start == y.End && x.End == y.Start)
-                return 1;
-            return -1;
         }
     }
 }

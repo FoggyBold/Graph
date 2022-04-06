@@ -1,11 +1,11 @@
-﻿using System;
+﻿using Graph.Action;
+using Graph.Container;
+using Graph.Models;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
-using Graph.Container;
-using Graph.Models;
-using Graph.Action;
 
 namespace Graph
 {
@@ -13,7 +13,7 @@ namespace Graph
     {
         private SaveLoad saveLoad = new SaveLoad();
 
-        private MathematicalFunctions functions = new MathematicalFunctions();
+        private AdjacencyMatrix functions = null;
         public GraphNodes Nodes { get; set; }
         public GraphLines Lines { get; set; }
         private Node currNode = null;
@@ -30,16 +30,26 @@ namespace Graph
         {
             if (e.Button == MouseButtons.Left)
             {
+                Node newNode = null;
                 if (Nodes.Nodes.Count > 0)
                 {
-                    Nodes.addNode(new Node(this.BackColor != Color.Black ? Color.White : Color.Black, e.Location, Nodes.Nodes[Nodes.Nodes.Count - 1].Id + 1));
+                    newNode = new Node(this.BackColor != Color.Black ? Color.White : Color.Black, e.Location, Nodes.Nodes[Nodes.Nodes.Count - 1].Id + 1);
                 }
                 else
                 {
-                    Nodes.addNode(new Node(this.BackColor != Color.Black ? Color.White : Color.Black, e.Location, 1));
+                    newNode = new Node(this.BackColor != Color.Black ? Color.White : Color.Black, e.Location, 0);
                 }
+                Nodes.addNode(newNode);
+                domainUpDown1.Items.Add(newNode.Id);
+                domainUpDown2.Items.Add(newNode.Id);
                 ((Control)sender).Invalidate();
             }
+        }
+
+        private void drawTextInRectangle(Rectangle dot, string text, Style style, PaintEventArgs e)
+        {
+            e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
+            TextRenderer.DrawText(e.Graphics, text, this.Font, dot, style.Color, TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter);
         }
 
         private void findDotesForLine(out Point start, out Point end, Line line)
@@ -60,24 +70,24 @@ namespace Graph
             {
                 e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
                 e.Graphics.DrawEllipse(node.Pen, node.Dot);
+                drawTextInRectangle(node.Dot, node.Id.ToString(), node.Style, e);
             }
-            foreach (Line line in Lines.Lines)
+            for (int i = 0; i < Lines.Lines.Count; ++i)
             {
 
-                findDotesForLine(out Point start, out Point end, line);
-                e.Graphics.DrawLine(line.Pen, start, end);
+                findDotesForLine(out Point start, out Point end, Lines.Lines[i]);
+                e.Graphics.DrawLine(Lines.Lines[i].Pen, start, end);
+                bool flag = false;
+                for (int j = 0; j < i && !flag; ++j)
+                {
+                    flag = Lines.Lines[i].Start == Lines.Lines[j].End && Lines.Lines[i].End == Lines.Lines[j].Start;
+                }
+                if (!flag)
+                {
+                    drawTextInRectangle(new Rectangle(Lines.Lines[i].Text.Point, new Size(24, 24)), Lines.Lines[i].Text.TextInLable, Lines.Lines[i].Style, e);
+                }
             }
         }
-
-        //private void drawString(Line line, PaintEventArgs e)
-        //{
-        //    Font drawFont = new Font("Arial", 14);
-        //    SolidBrush drawBrush = new SolidBrush(line.Style.Color);
-        //    StringFormat drawFormat = new StringFormat();
-        //    e.Graphics.DrawString(line.Text.TextInLable, drawFont, drawBrush, line.Text.Point, drawFormat);
-        //    drawFont.Dispose();
-        //    drawBrush.Dispose();
-        //}
 
         private void Form1_MouseDown(object sender, MouseEventArgs e)
         {
@@ -249,9 +259,8 @@ namespace Graph
                 line.updateColor(Color.Black);
             }
             this.BackColor = Color.White;
-            Graphics graphics = CreateGraphics();
-            graphics.Clear(this.BackColor);
-            Form1_Paint(sender, new PaintEventArgs(graphics, ClientRectangle));
+
+            clearAndPaint(sender);
         }
 
         private void darkThemeToolStripMenuItem_Click(object sender, EventArgs e)
@@ -265,14 +274,29 @@ namespace Graph
                 line.updateColor(Color.White);
             }
             this.BackColor = Color.FromArgb(34, 38, 41);
-            Graphics graphics = CreateGraphics();
-            CreateGraphics().Clear(this.BackColor);
-            Form1_Paint(sender, new PaintEventArgs(graphics, ClientRectangle));
+
+            clearAndPaint(sender);
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
             _ = saveLoad.SaveAsync(Nodes.Nodes);
+        }
+
+        private void clearAndPaint(object sender)
+        {
+            Graphics graphics = CreateGraphics();
+            graphics.Clear(this.BackColor);
+            Form1_Paint(sender, new PaintEventArgs(graphics, ClientRectangle));
+        }
+
+        private void fillingDomainUpDown(List<Node> nodes)
+        {
+            foreach(var i in nodes)
+            {
+                domainUpDown1.Items.Add(i.Id);
+                domainUpDown2.Items.Add(i.Id);
+            }
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
@@ -281,10 +305,41 @@ namespace Graph
             {
                 Nodes.Nodes = nodes;
                 Lines.Lines = lines;
-                Graphics graphics = CreateGraphics();
-                graphics.Clear(this.BackColor);
-                Form1_Paint(sender, new PaintEventArgs(graphics, ClientRectangle));
+
+                fillingDomainUpDown(nodes);
+
+                clearAndPaint(sender);
             }
+        }
+
+        private void search_Click(object sender, EventArgs e)
+        {
+            ShortestPath shortestPath = new ShortestPath(Nodes.Nodes, domainUpDown1.SelectedIndex, domainUpDown2.SelectedIndex);
+            double min = shortestPath.minimumPath();
+            List<int> path = shortestPath.path();
+        }
+
+        private void domainUpDown1_SelectedItemChanged(object sender, EventArgs e)
+        {
+            //domainUpDown1 = new DomainUpDown();
+            //foreach (Node node in Nodes.Nodes)
+            //{
+            //    domainUpDown1.Items.Add(node.Id);
+            //}
+        }
+
+        private void domainUpDown2_SelectedItemChanged(object sender, EventArgs e)
+        {
+            //domainUpDown2 = new DomainUpDown();
+            //foreach (Node node in Nodes.Nodes)
+            //{
+            //    domainUpDown2.Items.Add(node.Id);
+            //}
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Graph.Models;
 
 namespace Graph.Container
@@ -23,6 +19,13 @@ namespace Graph.Container
         {
             if (node != null)
             {
+                foreach(Node temp in Nodes)
+                {
+                    if(temp.Id > node.Id)
+                    {
+                        temp.Id--;
+                    }
+                }
                 node.delete();
                 Nodes.Remove(node);
             }

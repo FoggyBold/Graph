@@ -81,9 +81,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Action\ConvertToMatrix.cs" />
-    <Compile Include="Action\MathematicalFunctions.cs" />
+    <Compile Include="Action\AdjacencyMatrix.cs" />
     <Compile Include="Action\SaveLoad.cs" />
+    <Compile Include="Action\ShortestPath.cs" />
     <Compile Include="Container\GraphLines.cs" />
     <Compile Include="Container\GraphNodes.cs" />
     <Compile Include="Form1.cs">
