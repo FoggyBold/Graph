@@ -12,8 +12,6 @@ namespace Graph.Action
         }
         private double[,] convertToMatrix(List<Node> nodes)
         {
-            nodes.Sort(new NodeComparer());
-
             double[,] res = new double[nodes.Count, nodes.Count];
             setNulls(res);
 

@@ -159,6 +159,7 @@ namespace Graph
             //удаление вершин или дуг
             else if(e.Button == MouseButtons.Middle)
             {
+                setDefaultStyle(sender);
                 Node node = Nodes.Nodes.Find(n => n.Dot.Contains(e.Location));
                 if(node != null)
                 {
@@ -167,6 +168,7 @@ namespace Graph
                         Lines.Delete(line);
                     }
                     Nodes.Delete(node);
+                    changingValuesInDomainUpDown();
                     ((Control)sender).Invalidate();
                 }
                 else
@@ -209,6 +211,21 @@ namespace Graph
             }
         }
 
+        private void changingValuesInDomainUpDown()
+        {
+            domainUpDown1.Items.Clear();
+            domainUpDown2.Items.Clear();
+
+            domainUpDown1.Text = "";
+            domainUpDown2.Text = "";
+
+            foreach (var node in Nodes.Nodes)
+            {
+                domainUpDown1.Items.Add(node.Id);
+                domainUpDown2.Items.Add(node.Id);
+            }
+        }
+
         private void Form1_MouseUp(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
@@ -248,16 +265,20 @@ namespace Graph
             }
         }
 
-        private void lightThemeToolStripMenuItem_Click(object sender, EventArgs e)
+        private void changeTheme(Color color)
         {
             foreach (Node node in Nodes.Nodes)
             {
-                node.updateColor(Color.Black);
+                node.updateColor(color);
             }
             foreach (Line line in Lines.Lines)
             {
-                line.updateColor(Color.Black);
+                line.updateColor(color);
             }
+        }
+        private void lightThemeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            changeTheme(Color.Black);
             this.BackColor = Color.White;
 
             clearAndPaint(sender);
@@ -265,14 +286,7 @@ namespace Graph
 
         private void darkThemeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            foreach (Node node in Nodes.Nodes)
-            {
-                node.updateColor(Color.White);
-            }
-            foreach (Line line in Lines.Lines)
-            {
-                line.updateColor(Color.White);
-            }
+            changeTheme(Color.White);
             this.BackColor = Color.FromArgb(34, 38, 41);
 
             clearAndPaint(sender);
@@ -301,7 +315,7 @@ namespace Graph
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (saveLoad.Load(out List<Line> lines, out List<Node> nodes, this.BackColor != Color.Black ? Color.White : Color.Black))
+            if (saveLoad.Load(out List<Line> lines, out List<Node> nodes, this.BackColor != Color.White ? Color.White : Color.Black))
             {
                 Nodes.Nodes = nodes;
                 Lines.Lines = lines;
@@ -314,32 +328,77 @@ namespace Graph
 
         private void search_Click(object sender, EventArgs e)
         {
+            setDefaultStyle(sender);
             ShortestPath shortestPath = new ShortestPath(Nodes.Nodes, domainUpDown1.SelectedIndex, domainUpDown2.SelectedIndex);
             double min = shortestPath.minimumPath();
-            List<int> path = shortestPath.path();
+            if (min != int.MaxValue)
+            {
+                List<int> path = shortestPath.path();
+                label1.Text = min.ToString();
+                label7.Text = "";
+                for (int i = 0; i < path.Count; i++)
+                {
+                    label7.Text += path[i].ToString();
+                    if (i != path.Count - 1)
+                    {
+                        label7.Text += "->";
+                    }
+                }
+            }
         }
 
-        private void domainUpDown1_SelectedItemChanged(object sender, EventArgs e)
+        private void setDefaultStyle(object sender)
         {
-            //domainUpDown1 = new DomainUpDown();
-            //foreach (Node node in Nodes.Nodes)
-            //{
-            //    domainUpDown1.Items.Add(node.Id);
-            //}
+            foreach (Node node in Nodes.Nodes)
+            {
+                if (node.Highlighted)
+                {
+                    node.highlighting(this.BackColor != Color.White ? Color.White : Color.Black);
+                }
+            }
+            foreach(Line line in Lines.Lines)
+            {
+                if (line.Highlighted)
+                {
+                    line.highlighting(this.BackColor != Color.White ? Color.White : Color.Black);
+                }
+            }
+            label7.Text = "";
+            label1.Text = "";
+            clearAndPaint(sender);
         }
 
-        private void domainUpDown2_SelectedItemChanged(object sender, EventArgs e)
+        private void label7_Click(object sender, EventArgs e)
         {
-            //domainUpDown2 = new DomainUpDown();
-            //foreach (Node node in Nodes.Nodes)
-            //{
-            //    domainUpDown2.Items.Add(node.Id);
-            //}
-        }
+            var arrOfSubstr = label7.Text.Split('-', '>');
+            string prev = "";
+            foreach(var substr in arrOfSubstr)
+            {
+                if(substr.Length > 0)
+                {
+                    Nodes.Nodes.Find(n => n.Id.ToString() == substr).highlighting(this.BackColor != Color.White ? Color.White : Color.Black);
 
-        private void label2_Click(object sender, EventArgs e)
-        {
-
+                    if (prev == "")
+                    {
+                        prev = substr;
+                    }
+                    else
+                    {
+                        var line = Lines.Lines.Find(l => l.Start.Id.ToString() == prev && l.End.Id.ToString() == substr);
+                        if(line != null)
+                        {
+                            line.highlighting(this.BackColor != Color.White ? Color.White : Color.Black);
+                        }
+                        line = Lines.Lines.Find(l => l.Start.Id.ToString() == substr && l.End.Id.ToString() == prev);
+                        if (line != null)
+                        {
+                            line.highlighting(this.BackColor != Color.White ? Color.White : Color.Black);
+                        }
+                        prev = substr;
+                    }
+                }
+            }
+            clearAndPaint(sender);
         }
     }
 }

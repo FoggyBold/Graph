@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Drawing;
 
 namespace Graph.Models
 {
@@ -11,13 +6,6 @@ namespace Graph.Models
     {
         public Color Color { get; set; }
         public Size Size { get; set; }
-
-        public Style()
-        {
-            Size = new Size(14, 14);
-            Color = Color.Blue;
-        }
-
         public Style(Size size, Color color)
         {
             Size = size;

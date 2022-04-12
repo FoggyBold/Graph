@@ -7,6 +7,7 @@ namespace Graph.Models
         public Pen Pen { get; set; }
         public Style Style { get; set; }
         public Text Text { get; set; }
+        public bool Highlighted { get; set; }
         public void updateColor(Color color)
         {
             Pen.Color = color;
@@ -17,6 +18,19 @@ namespace Graph.Models
             if (Pen != null)
             {
                 Pen.Dispose();
+            }
+        }
+        public void highlighting(Color color)
+        {
+            if (!Highlighted)
+            {
+                updateColor(Color.Red);
+                Highlighted = true;
+            }
+            else
+            {
+                updateColor(color);
+                Highlighted = false;
             }
         }
     }

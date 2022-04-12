@@ -19,6 +19,7 @@ namespace Graph.Models
             Start = start;
             End = end;
             Length = length;
+            Highlighted = false;
             Text = new Text(new Point(0, 0), length.ToString());
             updatePositionText();
         }

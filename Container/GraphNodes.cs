@@ -19,9 +19,14 @@ namespace Graph.Container
         {
             if (node != null)
             {
-                foreach(Node temp in Nodes)
+                foreach (Node temp in Nodes)
                 {
-                    if(temp.Id > node.Id)
+                    temp.Сonnection.Remove(temp.Сonnection.Find(m => m.Item1.Id == node.Id));
+                }
+
+                foreach (Node temp in Nodes)
+                {
+                    if (temp.Id > node.Id)
                     {
                         temp.Id--;
                     }
