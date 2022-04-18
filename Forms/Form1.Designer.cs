@@ -93,9 +93,9 @@ namespace Graph
             this.label6.ForeColor = System.Drawing.Color.White;
             this.label6.Location = new System.Drawing.Point(0, 127);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(47, 18);
+            this.label6.Size = new System.Drawing.Size(50, 18);
             this.label6.TabIndex = 12;
-            this.label6.Text = "Path:";
+            this.label6.Text = "Путь:";
             // 
             // label5
             // 
@@ -104,16 +104,16 @@ namespace Graph
             this.label5.ForeColor = System.Drawing.Color.White;
             this.label5.Location = new System.Drawing.Point(0, 109);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(149, 18);
+            this.label5.Size = new System.Drawing.Size(217, 18);
             this.label5.TabIndex = 11;
-            this.label5.Text = "Minimum distance:";
+            this.label5.Text = "Минимальное расстояние:";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold);
             this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(155, 109);
+            this.label1.Location = new System.Drawing.Point(223, 109);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(8, 18);
             this.label1.TabIndex = 10;
@@ -127,7 +127,7 @@ namespace Graph
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(120, 24);
             this.label4.TabIndex = 9;
-            this.label4.Text = "End";
+            this.label4.Text = "Конец";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label3
@@ -138,7 +138,7 @@ namespace Graph
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(120, 24);
             this.label3.TabIndex = 8;
-            this.label3.Text = "Start";
+            this.label3.Text = "Старт";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label2
@@ -149,7 +149,7 @@ namespace Graph
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(286, 30);
             this.label2.TabIndex = 7;
-            this.label2.Text = "Minimum path";
+            this.label2.Text = "Минимальный путь";
             this.label2.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // domainUpDown2
@@ -175,7 +175,7 @@ namespace Graph
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(92, 26);
             this.button1.TabIndex = 0;
-            this.button1.Text = "Search";
+            this.button1.Text = "Поиск";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.search_Click);
             // 
@@ -200,23 +200,23 @@ namespace Graph
             this.openToolStripMenuItem});
             this.fileToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
-            this.fileToolStripMenuItem.Text = "File";
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
+            this.fileToolStripMenuItem.Text = "Файл";
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("saveToolStripMenuItem.Image")));
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
-            this.saveToolStripMenuItem.Text = "Save";
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
+            this.saveToolStripMenuItem.Text = "Сохранить";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("openToolStripMenuItem.Image")));
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
-            this.openToolStripMenuItem.Text = "Open";
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
+            this.openToolStripMenuItem.Text = "Загрузить";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // editingToolStripMenuItem
@@ -225,15 +225,15 @@ namespace Graph
             this.clearToolStripMenuItem});
             this.editingToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.editingToolStripMenuItem.Name = "editingToolStripMenuItem";
-            this.editingToolStripMenuItem.Size = new System.Drawing.Size(56, 20);
-            this.editingToolStripMenuItem.Text = "Editing";
+            this.editingToolStripMenuItem.Size = new System.Drawing.Size(59, 20);
+            this.editingToolStripMenuItem.Text = "Правка";
             // 
             // clearToolStripMenuItem
             // 
             this.clearToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("clearToolStripMenuItem.Image")));
             this.clearToolStripMenuItem.Name = "clearToolStripMenuItem";
-            this.clearToolStripMenuItem.Size = new System.Drawing.Size(101, 22);
-            this.clearToolStripMenuItem.Text = "Clear";
+            this.clearToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
+            this.clearToolStripMenuItem.Text = "Очистить";
             this.clearToolStripMenuItem.Click += new System.EventHandler(this.clearToolStripMenuItem_Click);
             // 
             // viewToolStripMenuItem
@@ -243,31 +243,31 @@ namespace Graph
             this.darkThemeToolStripMenuItem});
             this.viewToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
-            this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
-            this.viewToolStripMenuItem.Text = "View";
+            this.viewToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
+            this.viewToolStripMenuItem.Text = "Вид";
             // 
             // lightThemeToolStripMenuItem
             // 
             this.lightThemeToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("lightThemeToolStripMenuItem.Image")));
             this.lightThemeToolStripMenuItem.Name = "lightThemeToolStripMenuItem";
-            this.lightThemeToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
-            this.lightThemeToolStripMenuItem.Text = "Light theme";
+            this.lightThemeToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
+            this.lightThemeToolStripMenuItem.Text = "Светлая тема";
             this.lightThemeToolStripMenuItem.Click += new System.EventHandler(this.lightThemeToolStripMenuItem_Click);
             // 
             // darkThemeToolStripMenuItem
             // 
             this.darkThemeToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("darkThemeToolStripMenuItem.Image")));
             this.darkThemeToolStripMenuItem.Name = "darkThemeToolStripMenuItem";
-            this.darkThemeToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
-            this.darkThemeToolStripMenuItem.Text = "Dark theme";
+            this.darkThemeToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
+            this.darkThemeToolStripMenuItem.Text = "Тёмная тема";
             this.darkThemeToolStripMenuItem.Click += new System.EventHandler(this.darkThemeToolStripMenuItem_Click);
             // 
             // referenceToolStripMenuItem
             // 
             this.referenceToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.referenceToolStripMenuItem.Name = "referenceToolStripMenuItem";
-            this.referenceToolStripMenuItem.Size = new System.Drawing.Size(71, 20);
-            this.referenceToolStripMenuItem.Text = "Reference";
+            this.referenceToolStripMenuItem.Size = new System.Drawing.Size(65, 20);
+            this.referenceToolStripMenuItem.Text = "Справка";
             // 
             // Form1
             // 
@@ -282,6 +282,7 @@ namespace Graph
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
             this.Text = "Graph";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.Form1_Paint);
             this.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseDoubleClick);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseDown);

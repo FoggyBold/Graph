@@ -10,6 +10,7 @@ namespace Graph.Models
         public bool Highlighted { get; set; }
         public void updateColor(Color color)
         {
+            Highlighted = false;
             Pen.Color = color;
             Style.Color = color;
         }

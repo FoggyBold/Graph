@@ -11,14 +11,20 @@ namespace Graph
 {
     public partial class Form1 : Form
     {
-        private SaveLoad saveLoad = new SaveLoad();
-
-        private AdjacencyMatrix functions = null;
+        protected SaveLoad saveLoad = new SaveLoad();
+        protected Form2 form2;
         public GraphNodes Nodes { get; set; }
         public GraphLines Lines { get; set; }
-        private Node currNode = null;
-        private Node currNodeForConnection = null;
-        private Node secondNodeForConnection = null;
+        protected Node currNode = null;
+        protected Node currNodeForConnection = null;
+        protected Node secondNodeForConnection = null;
+        public Form1(Form2 form2)
+        {
+            InitializeComponent();
+            Nodes = new GraphNodes();
+            Lines = new GraphLines();
+            this.form2 = form2;
+        }
         public Form1()
         {
             InitializeComponent();
@@ -89,7 +95,7 @@ namespace Graph
             }
         }
 
-        private void Form1_MouseDown(object sender, MouseEventArgs e)
+        protected virtual void Form1_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
@@ -211,7 +217,7 @@ namespace Graph
             }
         }
 
-        private void changingValuesInDomainUpDown()
+        protected void changingValuesInDomainUpDown()
         {
             domainUpDown1.Items.Clear();
             domainUpDown2.Items.Clear();
@@ -259,6 +265,9 @@ namespace Graph
             "Reset Application", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (clearMessageBox == DialogResult.Yes)
             {
+                changingValuesInDomainUpDown();
+                label7.Text = "";
+                label1.Text = "";
                 Nodes.Clear();
                 Lines.Clear();
                 CreateGraphics().Clear(this.BackColor);
@@ -347,7 +356,7 @@ namespace Graph
             }
         }
 
-        private void setDefaultStyle(object sender)
+        protected void setDefaultStyle(object sender)
         {
             foreach (Node node in Nodes.Nodes)
             {
@@ -399,6 +408,11 @@ namespace Graph
                 }
             }
             clearAndPaint(sender);
+        }
+
+        protected virtual void Form1_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            form2.closeForm1();
         }
     }
 }
