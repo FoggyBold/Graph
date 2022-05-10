@@ -10,6 +10,7 @@ namespace Graph.Models
         public Node Start { get; }
         public Node End { get; }
         public double Length { get; set; }
+
         public Line(Node start, Node end, Color color, double length)
         {
             Style = new Style(new Size(6, 6), color);
@@ -23,6 +24,15 @@ namespace Graph.Models
             Text = new Text(new Point(0, 0), length.ToString());
             updatePositionText();
         }
+
+        public void updateLength(double length)
+        {
+            Length = length;
+            Start.updateLength(length, End);
+            End.updateLength(length, Start);
+            Text.TextInLable = Length.ToString();
+        }
+
         public void updatePositionText()
         {
             Point tempPointX = new Point(End.Dot.X, Start.Dot.Y);

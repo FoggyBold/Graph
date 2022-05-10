@@ -21,7 +21,7 @@ namespace Graph.Container
             {
                 foreach (Node temp in Nodes)
                 {
-                    temp.Сonnection.Remove(temp.Сonnection.Find(m => m.Item1.Id == node.Id));
+                    temp.Connection.Remove(temp.Connection.Find(m => m.Item1.Id == node.Id));
                 }
 
                 foreach (Node temp in Nodes)

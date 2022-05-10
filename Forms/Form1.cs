@@ -130,8 +130,8 @@ namespace Graph
                             Line check = Lines.Lines.Find(l => l.End == currNodeForConnection && l.Start == secondNodeForConnection);
                             if (check != null)
                             {
-                                length = check.Start.Сonnection.Find(n => n.Item1 == currNodeForConnection).Item2;
-                                currNodeForConnection.Сonnection.Add(new Tuple<Node, double>(secondNodeForConnection, length));
+                                length = check.Start.Connection.Find(n => n.Item1 == currNodeForConnection).Item2;
+                                currNodeForConnection.Connection.Add(new Tuple<Node, double>(secondNodeForConnection, length));
                                 Lines.addLine(new Line(currNodeForConnection, secondNodeForConnection, this.BackColor != Color.Black ? Color.White : Color.Black, length));
                             }
                             else
@@ -144,7 +144,7 @@ namespace Graph
                                         double.TryParse(inputValue, out length);
                                         if (length > 0)
                                         {
-                                            currNodeForConnection.Сonnection.Add(new Tuple<Node, double>(secondNodeForConnection, length));
+                                            currNodeForConnection.Connection.Add(new Tuple<Node, double>(secondNodeForConnection, length));
                                             Lines.addLine(new Line(currNodeForConnection, secondNodeForConnection, this.BackColor != Color.Black ? Color.White : Color.Black, length));
                                             break;
                                         }
@@ -199,13 +199,13 @@ namespace Graph
                             {
                                 if (tempNode == line.Start)
                                 {
-                                    Tuple<Node, double> connection = tempNode.Сonnection.Find(n => n.Item1 == line.End);
-                                    tempNode.Сonnection.Remove(connection);
+                                    Tuple<Node, double> connection = tempNode.Connection.Find(n => n.Item1 == line.End);
+                                    tempNode.Connection.Remove(connection);
                                 }
                                 else
                                 {
-                                    Tuple<Node, double> connection = tempNode.Сonnection.Find(n => n.Item1 == line.Start);
-                                    tempNode.Сonnection.Remove(connection);
+                                    Tuple<Node, double> connection = tempNode.Connection.Find(n => n.Item1 == line.Start);
+                                    tempNode.Connection.Remove(connection);
                                 }
                             }
                             Lines.Delete(line);
@@ -240,7 +240,7 @@ namespace Graph
             }
         }
 
-        private void Form1_MouseMove(object sender, MouseEventArgs e)
+        protected virtual void Form1_MouseMove(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
@@ -308,6 +308,9 @@ namespace Graph
 
         private void clearAndPaint(object sender)
         {
+            currNode = null;
+            currNodeForConnection = null;
+            secondNodeForConnection = null;
             Graphics graphics = CreateGraphics();
             graphics.Clear(this.BackColor);
             Form1_Paint(sender, new PaintEventArgs(graphics, ClientRectangle));

@@ -24,9 +24,9 @@ namespace Graph.Models
             {
                 Connection = new List<Tuple<int, double>>();
             }
-            for (int i = 0; i < point.Сonnection.Count; i++)
+            for (int i = 0; i < point.Connection.Count; i++)
             {
-                Connection.Add(new Tuple<int, double>(point.Сonnection[i].Item1.Id, point.Сonnection[i].Item2));
+                Connection.Add(new Tuple<int, double>(point.Connection[i].Item1.Id, point.Connection[i].Item2));
             }
         }
 

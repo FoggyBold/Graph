@@ -2,12 +2,7 @@
 using Graph.Models;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Graph.Forms
@@ -16,13 +11,36 @@ namespace Graph.Forms
     {
         private double step;
 
-        public Form3(Form2 form2)
+        public Form3(Form2 form2) : base(form2)
         {
             InitializeComponent();
             step = 0;
-            Nodes = new GraphNodes();
-            Lines = new GraphLines();
-            this.form2 = form2;
+        }
+
+        private void updateLength(Line line)
+        {
+            double length = Math.Sqrt(Math.Pow((line.Start.Center.X - line.End.Center.X), 2) + Math.Pow((line.Start.Center.Y - line.End.Center.Y), 2));
+            line.updateLength(Math.Round(length * step, 1));
+        }
+
+        protected override void Form1_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                if (currNode != null)
+                {
+                    currNode.changeCenter(e.Location);
+                    foreach (Line line in Lines.Lines)
+                    {
+                        foreach (Node node in Nodes.Nodes.FindAll(n => n == line.Start || n == line.End))
+                        {
+                            line.updatePositionText();
+                            updateLength(line);
+                        }
+                    }
+                    ((Control)sender).Invalidate();
+                }
+            }
         }
 
         protected override void Form1_MouseDown(object sender, MouseEventArgs e)
@@ -58,8 +76,8 @@ namespace Graph.Forms
                             Line check = Lines.Lines.Find(l => l.End == currNodeForConnection && l.Start == secondNodeForConnection);
                             if (check != null)
                             {
-                                double length = check.Start.Сonnection.Find(n => n.Item1 == currNodeForConnection).Item2;
-                                currNodeForConnection.Сonnection.Add(new Tuple<Node, double>(secondNodeForConnection, length));
+                                double length = check.Start.Connection.Find(n => n.Item1 == currNodeForConnection).Item2;
+                                currNodeForConnection.Connection.Add(new Tuple<Node, double>(secondNodeForConnection, length));
                                 Lines.addLine(new Line(currNodeForConnection, secondNodeForConnection, this.BackColor != Color.Black ? Color.White : Color.Black, length));
                             }
                             else
@@ -75,7 +93,7 @@ namespace Graph.Forms
                                             double.TryParse(inputValue, out length);
                                             if (length > 0)
                                             {
-                                                currNodeForConnection.Сonnection.Add(new Tuple<Node, double>(secondNodeForConnection, length));
+                                                currNodeForConnection.Connection.Add(new Tuple<Node, double>(secondNodeForConnection, length));
                                                 Lines.addLine(new Line(currNodeForConnection, secondNodeForConnection, this.BackColor != Color.Black ? Color.White : Color.Black, length));
                                                 step = Math.Round(length / Math.Sqrt(Math.Pow((secondNodeForConnection.Center.X - currNodeForConnection.Center.X),2) + Math.Pow((secondNodeForConnection.Center.Y - currNodeForConnection.Center.Y), 2)), 2);
                                                 break;
@@ -90,7 +108,7 @@ namespace Graph.Forms
                                 else
                                 {
                                     double length = Math.Sqrt(Math.Pow((secondNodeForConnection.Center.X - currNodeForConnection.Center.X), 2) + Math.Pow((secondNodeForConnection.Center.Y - currNodeForConnection.Center.Y), 2));
-                                    currNodeForConnection.Сonnection.Add(new Tuple<Node, double>(secondNodeForConnection, Math.Round(length * step, 1)));
+                                    currNodeForConnection.Connection.Add(new Tuple<Node, double>(secondNodeForConnection, Math.Round(length * step, 1)));
                                     Lines.addLine(new Line(currNodeForConnection, secondNodeForConnection, this.BackColor != Color.Black ? Color.White : Color.Black, Math.Round(length * step, 1)));
                                 }
                             }
@@ -138,13 +156,13 @@ namespace Graph.Forms
                             {
                                 if (tempNode == line.Start)
                                 {
-                                    Tuple<Node, double> connection = tempNode.Сonnection.Find(n => n.Item1 == line.End);
-                                    tempNode.Сonnection.Remove(connection);
+                                    Tuple<Node, double> connection = tempNode.Connection.Find(n => n.Item1 == line.End);
+                                    tempNode.Connection.Remove(connection);
                                 }
                                 else
                                 {
-                                    Tuple<Node, double> connection = tempNode.Сonnection.Find(n => n.Item1 == line.Start);
-                                    tempNode.Сonnection.Remove(connection);
+                                    Tuple<Node, double> connection = tempNode.Connection.Find(n => n.Item1 == line.Start);
+                                    tempNode.Connection.Remove(connection);
                                 }
                             }
                             Lines.Delete(line);

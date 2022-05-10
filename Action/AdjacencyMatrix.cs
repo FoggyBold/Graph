@@ -17,7 +17,7 @@ namespace Graph.Action
 
             foreach(Node node in nodes)
             {
-                foreach(var connectNode in node.Сonnection)
+                foreach(var connectNode in node.Connection)
                 {
                     res[node.Id, connectNode.Item1.Id] = connectNode.Item2;
                 }
