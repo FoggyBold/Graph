@@ -29,7 +29,6 @@ namespace Graph.Models
         {
             Length = length;
             Start.updateLength(length, End);
-            End.updateLength(length, Start);
             Text.TextInLable = Length.ToString();
         }
 

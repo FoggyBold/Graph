@@ -33,11 +33,11 @@ namespace Graph.Forms
                     currNode.changeCenter(e.Location);
                     foreach (Line line in Lines.Lines)
                     {
-                        foreach (Node node in Nodes.Nodes.FindAll(n => n == line.Start || n == line.End))
-                        {
+                        //foreach (Node node in Nodes.Nodes.FindAll(n => n == line.Start || n == line.End))
+                        //{
                             line.updatePositionText();
                             updateLength(line);
-                        }
+                        //}
                     }
                     ((Control)sender).Invalidate();
                 }
@@ -178,44 +178,47 @@ namespace Graph.Forms
         protected override void search_Click(object sender, EventArgs e)
         {
             setDefaultStyle(sender);
-            ShortestPath shortestPath = new ShortestPath(Nodes.Nodes, domainUpDown1.SelectedIndex, domainUpDown2.SelectedIndex);
-            double min = shortestPath.minimumPath();
-            if (min != int.MaxValue)
+            if (domainUpDown1.SelectedIndex != -1 && domainUpDown2.SelectedIndex != -1)
             {
-                List<int> path = shortestPath.path();
-                label1.Text = min.ToString();
-                label7.Text = "";
-                for (int i = 0; i < path.Count; i++)
+                ShortestPath shortestPath = new ShortestPath(Nodes.Nodes, domainUpDown1.SelectedIndex, domainUpDown2.SelectedIndex);
+                double min = shortestPath.minimumPath();
+                if (min != int.MaxValue)
                 {
-                    label7.Text += path[i].ToString();
-                    if (i != path.Count - 1)
+                    List<int> path = shortestPath.path();
+                    label1.Text = min.ToString();
+                    label7.Text = "";
+                    for (int i = 0; i < path.Count; i++)
                     {
-                        label7.Text += "->";
+                        label7.Text += path[i].ToString();
+                        if (i != path.Count - 1)
+                        {
+                            label7.Text += "->";
+                        }
                     }
                 }
-            }
-            DialogResult question = MessageBox.Show(
-                                "Попробовать уменьшить найденный минимальный путь?",
-                                "Вопрос",
-                                MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (question == DialogResult.Yes)
-            {
-                NewRoad newRoad = new NewRoad(Nodes.Nodes, domainUpDown1.SelectedIndex, domainUpDown2.SelectedIndex, step, min);
-                Line newLine = newRoad.findNewRoad();
-                if (newLine != null)
+                DialogResult question = MessageBox.Show(
+                                    "Попробовать уменьшить найденный минимальный путь?",
+                                    "Вопрос",
+                                    MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (question == DialogResult.Yes)
                 {
-                    label1.Text = "";
-                    label7.Text = "";
-                    newLine.updateColor(BackColor == Color.White ? Color.Black : Color.White);
-                    Lines.addLine(newLine);
-                    clearAndPaint(sender);
-                }
-                else
-                {
-                    DialogResult result = MessageBox.Show(
-                                "Мы не смогли найти способы уменьшения пути!",
-                                "Ошибка",
-                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    NewRoad newRoad = new NewRoad(Nodes.Nodes, domainUpDown1.SelectedIndex, domainUpDown2.SelectedIndex, step, min);
+                    Line newLine = newRoad.findNewRoad();
+                    if (newLine != null)
+                    {
+                        label1.Text = "";
+                        label7.Text = "";
+                        newLine.updateColor(BackColor == Color.White ? Color.Black : Color.White);
+                        Lines.addLine(newLine);
+                        clearAndPaint(sender);
+                    }
+                    else
+                    {
+                        DialogResult result = MessageBox.Show(
+                                    "Мы не смогли найти способы уменьшения пути!",
+                                    "Ошибка",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
             }
         }

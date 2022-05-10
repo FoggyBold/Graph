@@ -341,19 +341,22 @@ namespace Graph
         protected virtual void search_Click(object sender, EventArgs e)
         {
             setDefaultStyle(sender);
-            ShortestPath shortestPath = new ShortestPath(Nodes.Nodes, domainUpDown1.SelectedIndex, domainUpDown2.SelectedIndex);
-            double min = shortestPath.minimumPath();
-            if (min != int.MaxValue)
+            if (domainUpDown1.SelectedIndex != -1 && domainUpDown2.SelectedIndex != -1)
             {
-                List<int> path = shortestPath.path();
-                label1.Text = min.ToString();
-                label7.Text = "";
-                for (int i = 0; i < path.Count; i++)
+                ShortestPath shortestPath = new ShortestPath(Nodes.Nodes, domainUpDown1.SelectedIndex, domainUpDown2.SelectedIndex);
+                double min = shortestPath.minimumPath();
+                if (min != int.MaxValue)
                 {
-                    label7.Text += path[i].ToString();
-                    if (i != path.Count - 1)
+                    List<int> path = shortestPath.path();
+                    label1.Text = min.ToString();
+                    label7.Text = "";
+                    for (int i = 0; i < path.Count; i++)
                     {
-                        label7.Text += "->";
+                        label7.Text += path[i].ToString();
+                        if (i != path.Count - 1)
+                        {
+                            label7.Text += "->";
+                        }
                     }
                 }
             }
