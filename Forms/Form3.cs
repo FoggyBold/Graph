@@ -1,4 +1,5 @@
-﻿using Graph.Container;
+﻿using Graph.Action;
+using Graph.Container;
 using Graph.Models;
 using System;
 using System.Collections.Generic;
@@ -171,6 +172,68 @@ namespace Graph.Forms
                         ((Control)sender).Invalidate();
                     }
                 }
+            }
+        }
+
+        protected override void search_Click(object sender, EventArgs e)
+        {
+            setDefaultStyle(sender);
+            ShortestPath shortestPath = new ShortestPath(Nodes.Nodes, domainUpDown1.SelectedIndex, domainUpDown2.SelectedIndex);
+            double min = shortestPath.minimumPath();
+            if (min != int.MaxValue)
+            {
+                List<int> path = shortestPath.path();
+                label1.Text = min.ToString();
+                label7.Text = "";
+                for (int i = 0; i < path.Count; i++)
+                {
+                    label7.Text += path[i].ToString();
+                    if (i != path.Count - 1)
+                    {
+                        label7.Text += "->";
+                    }
+                }
+            }
+            DialogResult question = MessageBox.Show(
+                                "Попробовать уменьшить найденный минимальный путь?",
+                                "Вопрос",
+                                MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (question == DialogResult.Yes)
+            {
+                NewRoad newRoad = new NewRoad(Nodes.Nodes, domainUpDown1.SelectedIndex, domainUpDown2.SelectedIndex, step, min);
+                Line newLine = newRoad.findNewRoad();
+                if (newLine != null)
+                {
+                    label1.Text = "";
+                    label7.Text = "";
+                    newLine.updateColor(BackColor == Color.White ? Color.Black : Color.White);
+                    Lines.addLine(newLine);
+                    clearAndPaint(sender);
+                }
+                else
+                {
+                    DialogResult result = MessageBox.Show(
+                                "Мы не смогли найти способы уменьшения пути!",
+                                "Ошибка",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        protected override void openToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (saveLoad.Load(out List<Line> lines, out List<Node> nodes, this.BackColor != Color.White ? Color.White : Color.Black))
+            {
+                if (lines != null)
+                {
+                    step = Math.Round(lines[0].Length / Math.Sqrt(Math.Pow((lines[0].Start.Center.X - lines[0].End.Center.X), 2) + Math.Pow((lines[0].Start.Center.Y - lines[0].End.Center.Y), 2)), 2);
+                }
+                Nodes.Nodes = nodes;
+                Lines.Lines = lines;
+
+                fillingDomainUpDown(nodes);
+
+                clearAndPaint(sender);
             }
         }
 

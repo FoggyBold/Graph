@@ -306,7 +306,7 @@ namespace Graph
             _ = saveLoad.SaveAsync(Nodes.Nodes);
         }
 
-        private void clearAndPaint(object sender)
+        protected void clearAndPaint(object sender)
         {
             currNode = null;
             currNodeForConnection = null;
@@ -316,7 +316,7 @@ namespace Graph
             Form1_Paint(sender, new PaintEventArgs(graphics, ClientRectangle));
         }
 
-        private void fillingDomainUpDown(List<Node> nodes)
+        protected void fillingDomainUpDown(List<Node> nodes)
         {
             foreach(var i in nodes)
             {
@@ -325,7 +325,7 @@ namespace Graph
             }
         }
 
-        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        protected virtual void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (saveLoad.Load(out List<Line> lines, out List<Node> nodes, this.BackColor != Color.White ? Color.White : Color.Black))
             {
@@ -338,7 +338,7 @@ namespace Graph
             }
         }
 
-        private void search_Click(object sender, EventArgs e)
+        protected virtual void search_Click(object sender, EventArgs e)
         {
             setDefaultStyle(sender);
             ShortestPath shortestPath = new ShortestPath(Nodes.Nodes, domainUpDown1.SelectedIndex, domainUpDown2.SelectedIndex);

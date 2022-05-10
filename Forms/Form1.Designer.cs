@@ -311,14 +311,14 @@ namespace Graph
         private ToolStripMenuItem saveToolStripMenuItem;
         private ToolStripMenuItem openToolStripMenuItem;
         private Button button1;
-        private DomainUpDown domainUpDown1;
-        private DomainUpDown domainUpDown2;
+        protected DomainUpDown domainUpDown1;
+        protected DomainUpDown domainUpDown2;
         private Label label4;
         private Label label3;
         private Label label2;
         private Label label5;
-        private Label label1;
-        private Label label7;
+        protected Label label1;
+        protected Label label7;
         private Label label6;
     }
 }
