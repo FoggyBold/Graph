@@ -33,11 +33,8 @@ namespace Graph.Forms
                     currNode.changeCenter(e.Location);
                     foreach (Line line in Lines.Lines)
                     {
-                        //foreach (Node node in Nodes.Nodes.FindAll(n => n == line.Start || n == line.End))
-                        //{
-                            line.updatePositionText();
-                            updateLength(line);
-                        //}
+                        line.updatePositionText();
+                        updateLength(line);
                     }
                     ((Control)sender).Invalidate();
                 }

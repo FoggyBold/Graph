@@ -261,8 +261,8 @@ namespace Graph
 
         private void clearToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            DialogResult clearMessageBox = MessageBox.Show("Do you really want to clear this form?",
-            "Reset Application", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            DialogResult clearMessageBox = MessageBox.Show("Вы действительно хотите очистить это окно?",
+            "Очистка", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (clearMessageBox == DialogResult.Yes)
             {
                 changingValuesInDomainUpDown();

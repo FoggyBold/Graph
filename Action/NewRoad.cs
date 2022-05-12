@@ -64,11 +64,6 @@ namespace Graph.Action
                     startNode.Connection.Add(newRoad);
                     newLine = new Line(startNode, endNode, Color.Black, newRoad.Item2);
                     ShortestPath temp = new ShortestPath(nodes, start, end);
-                    if (temp.minimumPath() < startLength)
-                    {
-                        startNode.Connection.Remove(newRoad);
-                        newLine = null;
-                    }
                 }
             }
             return newLine;
